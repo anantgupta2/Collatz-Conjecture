@@ -1,0 +1,351 @@
+\documentclass[12pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+
+\usepackage{csvsimple}
+\usepackage{graphicx} 
+\usepackage{appendix}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{grffile}
+\usepackage{tabulary}
+\usepackage{booktabs} % for much better looking tables
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{csvsimple}
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+%%% The "real" document content comes below...
+
+\title{On Cycles of Generalized Collatz Sequences}
+\author{\small Anant Gupta\\ 
+    \small Lotus Valley International School, Noida, India\\
+    \small \texttt{anantgupta35@gmail.com}}
+\date{} 
+
+%\setlength{\parindent}{0cm}
+\begin{document}
+\maketitle
+\begin{abstract}
+
+\end{abstract}
+
+\section{Introduction}
+
+\begin{equation}
+F_k(n)= \begin{cases}    
+    \frac{3n+k}{2}  & \text{if} \quad n \equiv 1 \mod 2\\
+    \frac{n}{2}   & \text{if} \quad n \equiv 0 \mod2\
+   \end{cases}
+   \label{eqn:gcs}
+\end{equation}
+
+
+\section{Definitions}
+
+We define the terms that will be used often in this paper. 
+\begin{itemize}
+    \item \textbf{Path} : Path of $F_k(n)$ is the set of numbers that are reached during successive iterations of the function. Path of $F_k(n) = \{F_k(n), F_k^2(n), F_k^3(n), \cdots \}$. For example, for $k=5$ and $n=12$, the subsequent numbers are $12 \rightarrow  6 \rightarrow  3\rightarrow 7 \rightarrow  13\rightarrow 22 \rightarrow  11\rightarrow 19\rightarrow 31\rightarrow  49\rightarrow 76 \rightarrow 38\rightarrow 19 \rightarrow  31\rightarrow \cdots$. Therefore the path of $F_5(12)$ is $\{12, 6, 3, 7, 13, 22, 11, 19, 31, 49, 76, 38, 19, 31\}$ and $12, 6 ..$ are elements of the path.
+    
+    \item \textbf{Cycle} : A cycle in $F_k$ is the list of values beginning from the minimum number that are reached repeatedly in the path of $F_k(n)$ for some $n \in \mathbb{N}$. We will refer to the minimum number in the cycle as $T_0$ in the rest of the paper. Thus, a cycle is $\{T_0, F_k(T_0), F^2_k(T_0), F^3_k(T_0), \cdots , F^s_k(T_0)\}$ with $F^{s+1}_k(T_0) = T_0$ and $s$ is the number of steps. For example, for $k=5$ and $n=12$ the path is $\{12 \rightarrow  6 \rightarrow  3\rightarrow 7 \rightarrow  13\rightarrow 22 \rightarrow  11\rightarrow 19\rightarrow 31\rightarrow  49\rightarrow 76 \rightarrow  38\rightarrow 19 \rightarrow  31\rightarrow 49 \rightarrow 76\rightarrow 38\rightarrow 19, \cdots\}$.  The cycle is $\{19, 31, 49, 76, 38\}$.
+      
+      \item \textbf{Set of Cycles $\zeta_k$} : We define $\zeta_k$ as a set of the minimum values of all the cycles in $F_k$. For example $\zeta_5 = \{ 1, 5, 19, 23, 187, 347\}$ as we have $6$ known cycles in $F_5$.
+      
+      \item \textbf{up iteration} : An up step is the usage of $\frac{3n+k}{2}$ once, $n$ being odd. An up iteration is the successive application of $\frac{3n+k}{2}$ due to a series of odd numbers in the path ending in an even number. The number of steps applied in the entire up iteration is represented by $u$ throught this paper.
+      
+      \item \textbf{down iteration} : A down step is the usage of $\frac{n}{2}$ once, $n$ being even. A down iteration is the successive application of $\frac{n}{2}$ due to a series of even numbers in the path. The number of steps applied in the entire down iteration is represented by $d$ throughout this paper.
+      
+      \item \textbf{orb} : An orb is defined as one up iteration and one down iteration.
+      
+      \item \textbf{2-cycle} : A 2-cycle is a set of $s$ orbs starting with an up iteration such that ending number is same as the starting number. For the rest of the paper we will represent a 2-cycle with $s$ orbs as $\{ u_1, d_1, u_2, d_2, \cdots , u_s, d_s \}$.  The $i^{th}$ up iteration step count is represented by $u_i$, while $i^{th}$ down iteration step count is represented by $d_i$. We will also interchangeably use $\{u_i, d_i\}$ to denote the full 2-cycle with $s$ orbs.
+      
+      \item \textbf{Original cycle of $F_k$} : A cycle $\{u_i, d_i\}$ is an original cycle of $F_k$ if $k$ is the smallest number where cycle appears in $F_k$ sequence.
+      \item \textbf{Cycle inheritance}: A cycle is said to  be inherited from $F_r$ if there exists a cycle in $F_k$ and $F_r$ with identical sequence of $\{u_i,d_i\}$ where $k>r$.
+      \item We would use the following definitions consistently throughout the paper
+      \begin{align*}
+            U  & = \sum_{1}^{s}u_i\\
+            D  & = \sum_{1}^{s}d_i\\    
+            \alpha_{i} & = 2^{\sum_{1}^{i-1}{u_j + d_j}} (3^{u_i} - 2^{u_i})3^{\sum_{i+1}^{s}u_j}\\
+            \alpha & = \sum_{1}^{s} \alpha_{i}\\
+            \beta  & = 2^{U + D} - 3^{U}\\ 
+      \end{align*}
+\end{itemize}
+
+\section{Cycles in Generalized Collatz Sequence}
+
+\begin{theorem}
+Each cycle in $F_k$ for a given $k$ can be uniquely represented by its lowest element.
+\end{theorem}
+\begin{proof} 
+Let each number be a node on a graph, then each node can only be directed towards one point, therefore the successive number for each node is fixed. Since there is only one path originating from a node, if a number is the lowest element of a cycle, it uniquely describes the cycle.
+Therefore, all information about the cycles of $F_k$ is captured by $\zeta_k$.
+\newline
+\end{proof}
+\textbf{Theorem 2 :} Let odd number $T_0$ be the starting point of an orb. The output of $F_k(n)$ after an up iteration with $u$ steps is 
+\begin{equation*}
+O_u = \frac{3^{u}T_0 +k(3^{u}-2^{u})}{2^{u}}.
+\end{equation*}
+\textbf{Proof :} Let the output be $O_1$ after one up step. Since $T_0$ is odd
+\begin{equation*}
+O_1 = \frac{3 T_0 + k}{2}
+\end{equation*}
+Therefore,the formula holds for $u=1$. Let the formula be true for $u$, then
+\begin{equation*}
+O_u=\frac{3^{u}T_0 +k(3^{u}-2^{u})}{2^{u}}
+\end{equation*}
+For $u+1$ up steps
+\begin{align*}
+O_{u+1} &=\frac{3\frac{3^{u}T_0 +k(3^{u}-2^{u})}{2^{u}}+k}{2}\\
+&= \frac{3^{u+1}T_0 +k(3^{u+1}-2^{u}\cdot3+2^{u})}{2^{u+1}}\\
+&=\frac{3^{u+1}T_0 +k(3^{u+1}-2^{u+1})}{2^{u+1}}\\
+\end{align*}
+Therefore, the formula is true for $u+1$ up steps. By mathematical induction, the formula is true for all $u \in \mathbb{N}$.
+\newline
+
+\textbf{Theorem 3:}
+Let $T_0$ be the starting point of an orb. The output of $F_k(T_0)$ after s orbs with sequence $\{u_1, d_1, u_2, d_2, \cdots, u_s, d_s\}$ is
+\begin{equation}
+T_s = \frac{3^{U}T_0 + k\alpha}{2^{U+D}}
+\label{eq:patheq}
+\end{equation}
+
+\textbf{Proof :}
+Let $T_r$ be the output of $F_k$ after r orbs. From Theorem 2, output after $u_1$ up steps
+\begin{equation*}
+=\frac{3^{u_1}T_0 +k(3^{u_1}-2^{u_1})}{2^{u_1}}
+\end{equation*}
+and, the output $T_1$ after $1^{st}$ orb -  $u_1$ up steps followed by $d_1$ down steps is
+\begin{align*}
+T_1 & =\frac{\frac{3^{u_1}T_0 +k(3^{u_1}-2^{u_1})}{2^{u_1}}}{2^{d_1}}\\
+    & =\frac{3^{u_1}n +k(3^{u_1}-2^{u_1})}{2^{u_1+d_1}}
+\end{align*}
+therefore, the formula holds for one orb.
+
+Let the formula be true for a $s$ orbs, therefore 
+\begin{equation*}
+T_s = \frac{3^U T_0 + k \alpha}{2^{U+D}}
+\end{equation*}
+
+for $s+1$ orbs
+\begin{align*}
+T_{s+1} & =\frac{3^{u_s}\frac{3^{\sum u_i}T_0 + k(\sum_{i=1}^{s}(2^{\sum_{j=1}^{i-1}u_j+d_j})(3^{u_i}-2^{u_i})(3^{\sum_{j=i+1}^{s} u_j}))}{2^{\sum u_i+d_i}} +k(3^{u_s}-2^{u_s})}{2^{u_s+d_s}}\\
+ & = \frac{3^{\sum u_i}T_0 + k(\sum_{i=1}^{s+1}(2^{\sum_{j=1}^{i-1}u_j+d_j})(3^{u_i}-2^{u_i})(3^{\sum_{j=i+1}^{s+1} u_j}))}{2^{\sum u_i+d_i}}\\
+\end{align*}
+therefore, the formula is true for $s+1$ orbs if it is true for $s$ orbs. By mathematical induction, the formula is true for all $s \in \mathbb{N}$.
+\newline
+
+\textbf{Theorem 4 :}
+A trivial cycle  $\{k \rightarrow 2k\}$ exists for all $F_k$.
+
+\textbf{Proof :}
+Since $k$ is odd, path for $F_k(k)$ is $\frac{3k+k}{2}$ = $2k$. Since $2k$ is even, $F_k(2k) = \frac{2k}{2} = k$. Therefore, $k \rightarrow 2k \rightarrow k$ is always a cycle in $F_k$.
+\newline
+
+\textbf{Theorem 5 :} Minimal point $T_0$ and the orbs $\{u_i, d_i\}$ of cycles in $F_k$ satisfy 
+\begin{equation}
+    T_0 = \frac{k \alpha}{\beta}
+    \label{eq:cycle}
+\end{equation}
+
+\textbf{Proof :}
+Since $T_0$ is the minimal element of the cycle, the next number on the path from $T_0$ will be larger than $T_0$. Therefore, $T_0$ is odd. Given the path is a cycle, $T_s = T_0$, or from Theorem 3, 
+\begin{align*}
+T_0 & = T_s \\
+    & = \frac{3^U T_0 + k \alpha}{2^{U+D}}\\
+    & = \frac{k \alpha}{2^{U+D} - 3^U}\\
+    & = \frac{k \alpha}{\beta}
+\end{align*} 
+
+We have assumed that $T_0$ is the the minimal element of the cycle. That assumption is actually not necessary. We can just assume that $T_0$ is the first odd number after an even number. This formulation will lead to multiple solutions for the same cycle with each orb's minimum point being a solution. Given each cycle will necessarily have at least one odd and one even element means every cycle will have an odd starting element.
+\newline
+
+\textbf{Theorem 6 :}
+There is a cycle in $F_k$ \textit{iff} there is a solution to equation \eqref{eq:cycle} for some $\{u_i,d_i\}$.
+
+\textbf{Proof :}
+Theorem 5 shows that if there is a cycle, $T_0$ satisfies equation \eqref{eq:cycle}. The critical observation is that the formula additionally embeds all the the odd and even conditions of the collatz function. A path from $T_0$ can get back to $T_0$ only if at all iterations, correct odd/even choice is made and all elements on the path are integer. Even a single wrong odd / even path selection results in a fraction. Once a fraction is created, there is no way an integer can result through any number of application of $F_k$. 
+
+First time a fraction is created from integer through incorrect path selection in $F_k$ will be either applying even path to odd number or applying odd path to even number. In either case, fraction $\frac{a}{2}$, where $a$ is an odd integer, results. Subsequent application of $F_k$ leaves similar fraction $\frac{a}{2^b}$, where $a$ is odd, $b > 0$. Both odd and even paths are considered below:
+\begin{align*}
+    F_k(\frac{a}{2^b})  & = \frac{3a/2^b + k}{2} \\
+                        & = \frac{3a + k 2^b}{2^{b+1}}\\
+                        & = \frac{c}{2^{b+1}}
+\end{align*}
+Note that $c$ is odd in above as $a$ is odd and $k \cdot 2^b$ is even, making the sum odd. As for even path, 
+\begin{align*}
+   F_k( \frac{a}{2^b}) & = \frac{a/2^b}{2}\\
+                      & = \frac{a}{2^{b+1}}
+\end{align*}
+
+Theorem 6 has significant implications for collatz conjecture and we capture that in Theorem below.
+\newline
+
+\textbf{Theorem 7 :}
+A non-trivial cycle in Collatz sequence exists if and only if for some $\{u_i, d_i\}$, $\beta \vert \alpha$. 
+
+\textbf{Proof :}
+From equation \eqref{eq:cycle}, the starting point of cycle in collatz sequence will be, 
+\[ 
+T_0 = \frac{\alpha}{\beta}.
+\]
+Given $T_0$ is integer, the only way this can happen is if $\beta  \vert \alpha$. Therefore, there is a non-trivial cycle if and only $\beta \vert \alpha$ for some $\{u_i, d_i\}$. Alternatively, collatz conjecture will be falsified if for any $\{u_i, d_i\}$, $\beta \vert \alpha$. Obviously, $\{u_1, d_1\} = \{1,1\}$ for trivial cycle satisfies this equation with $T_0 = 1$.
+\newline
+
+\textbf{Theorem 8 :}
+Every cycle $\{u_i, d_i\}$ in $F_k$ will inherited by all $F_{rk}$ where $r \in \mathbb{N}$. The minimum element of the corresponding cycle in $F_{kr}$ will be $rT_0$, the cycle orbs in $F_{rk}$ be same as $\{u_i, d_i\}$ and each element in the cycle will be multiplied by $r$.
+
+\textbf{Proof :}
+Multiplying the cycle equation \eqref{eq:cycle} for cycle $\{u_i, d_i\}$ with $T_0$ starting point, by $r$
+\[
+r \cdot T_0 = \frac{(r k) \alpha}{\beta}
+\]
+From Theorem 6, $\{u_i, d_i\}$ is a cycle in $F_{rk}$ with starting point $r T_0$. It is also evident that all subsequent elements of the cycle in $F_{rk}$ are multiple of $r$.\\
+\newline
+
+\textbf{Theorem 9 :}
+ For every number $L$, there exists a $k$ such that $F_k$ has more than $L$ cycles.
+ 
+ \textbf{Proof :}
+ Using Hardy and Ramanujan asymptotic partition function
+ \[
+ P(n) \asymp \frac{1}{4 n \sqrt{3}} e^{\pi \sqrt{2n/3}}
+ \]
+ we can find $n$ such that it has more than $L$ rotational invariant partitions. Set $U = D = n$,  and $k = 2^{U+D} - 3^U$. Equation \ref{eq:cycle} for $F_k$ reduces to 
+\[T_0 = \alpha.\]
+Therefore, every rotational invariant partition creates a cycle, yielding more than $L$ cycles.
+\newline
+
+\noindent
+There are several consequences and observations based on the above theorems:
+\begin{itemize}
+    \item For a composite number $k = p_1 p_2 \cdots p_r$, the cycles of $F_k$ are union of cycles in all the factors of $k$ and the cycles that originate in $F_k$. For cycles that originate in $F_k$, $k$ divides $\beta$. For example, $F_{175}$ has $17$ non trivial cycles. It inherits $5$ cycles from $F_5$, $1$ cycle from $F_7$, $2$ original cycles of $F_{25}$, $2$ original cycles of $F_{35}$, and has $7$ of its own original cycles. Note that $5, 7$ being prime have only original non-trivial cycles and have $5$ and $1$ cycles, respectively. A cycle inherited in a multiple retains the $\{u_i, d_i\}$, whereas all the cycle elements are multiplied. In that sense, $\{u_i, d_i\}$ are invariant across the entire $F_k$ space and appear more fundamental than the cycle elements.   
+    
+    \item For all non-trivial cycles of $F_k$, atleast one of the factor of $k$ divides $\beta$ and if $k$ is prime, $k$ divides $\beta$.
+    
+    \item For every $\{u_i, d_i\}$, such that $\beta > 0$, the unique cycle originates in one and only one $F_k$, where
+    \[ 
+        k  = \frac{\beta}{gcd(\alpha, \beta)}.
+    \]
+    $\beta > 0$ is satisfied if $\frac{U \ln{3/2}}{\ln{2}}$. The unique mapping from $\{u_i, d_i\}$ to $k$ implies that cycles have a unique ordering. 
+       
+    \item If $k_1, k_2$ are co-primes, $F_{k_1}, F_{k_2}$ do not have any common non trivial cycle.
+   
+    \item Since $3^r$ does not divide $\beta$, all cycles of $k=3^r$ will require $\beta$ to divide $\alpha$. That is the same condition for non-trivial cycle in collatz sequence. This implies that all cycles of $F_{3^r}$ are exactly same as cycles of collatz sequence. Collatz conjecture can be proved or disproved for any $F_{3^r}$.
+    
+     
+    \item All cycles of $F_k$ and $F_{3^p \cdot k}$ are same.
+    
+    \item All elements of path of $F_k(n k)$ will be multiple of $k$. Starting with $n k$, the next element in the path
+\begin{align*}
+F_k(n k) & =  
+    \begin{cases} 
+   \frac{3nk + k}{2} & = k \, \frac{3n + 1}{2} \quad  \text{if} \quad n \equiv 1 \mod 2\\
+   \frac{nk}{2}  & = k \, \frac{n}{2}  \quad    \quad \: \,  \text{if} \quad n \equiv 0 \mod 2
+   \end{cases}\\
+   & = k \; F_k(n)
+\end{align*}   
+   
+   \item For prime $k$ and $n$ not a multiple of $k$, path of $F_k(n)$ has no element that is multiple of $k$. This also implies that in such situation $F_k(n)$ will not converge to trivial cycle. 
+   
+   \item Assuming collatz conjecture to be true, all integers of the form $\frac{nk}{3^p}$ converge to trivial cycle in $F_k$. Conversely, if number is not of this form, it will not converge to trivial cycle.
+   
+   \item Assuming collatz conjecture to be true, only and all numbers of the form $\frac{nk}{3^{p}}$ converge to the trivial cycle, given an interval with a range that is an integral multiple of $k$, only $100\frac{3^p}{k}\%$ of the numbers will converge to the trivial cycle where $p$ is the maximum integral value for which $3^p$ divides $k$. 
+    
+    \item Under the assumption that $F_k$ converges, every $k$ that is not a multiple of $3$ will have atleast one original cycle.
+\end{itemize}
+ 
+\begin{thebibliography}{9}
+
+\bibitem{Belaga98}
+Edward G. Belaga, Maurice Mignotte.
+\textit{Embedding the 3x+1 Conjecture in a 3x+d Context}
+Experimental Mathematica 7:2, 145-151.
+
+\bibitem{eliahou}
+Eliahou, Shalom
+\textit{The 3x + 1 problem: new lower bounds on nontrivial cycle lengths}
+Discrete Mathematics. 118 (1): 45–56. doi:10.1016/0012-365X(93)90052-U.
+
+\bibitem{eric}
+Eric Roosendaal.
+\textit{On the 3x + 1 problem}
+http://www.ericr.nl/wondrous/
+
+\bibitem{Hayden}
+Messerman, Hayden; LeBeau, Joey; Klyve, Dominic.
+\textit{Generalized Collatz Functions: Cycle Lengths and Statistics}
+International Journal of Undergraduate Research and Creative Activities, Volume 4, Article 2, 2012/10/09
+
+\bibitem{john2004}
+John Lesieutre.
+\textit{On a Generalization of the Collatz Conjecture}
+https://www.semanticscholar.org/paper/On-a-Generalization-of-the-Collatz-Conjecture-John-Wang/9da2c36caa6a8aca9ed0c3a03b3fe0efd32eb2a8
+
+\bibitem{kurtz2007}
+Kurtz, Stuart A.; Simon, Janos (2007). 
+\textit{The Undecidability of the Generalized Collatz Problem}
+In Cai, J.-Y.; Cooper, S. B.; Zhu, H. (eds.). Proceedings of the 4th International Conference on Theory and Applications of Models of Computation, TAMC 2007, held in Shanghai, China in May 2007. pp. 542–553. doi:10.1007/978-3-540-72504-6-49. ISBN 978-3-540-72503-9. As PDF
+
+\bibitem{lagaris85}
+Lagarias, Jeffrey C.
+\textit{The 3x + 1 problem and its generalizations}
+The American Mathematical Monthly. 92 (1): 3–23. doi:10.1080/00029890.1985.11971528. JSTOR 2322189.
+
+\bibitem{lagaris90}
+Lagarias, Jeffrey C.
+\textit{The Set of Rational Cycles for the 3x+1 Problem}
+Acta Arith. 56, 33-53, 1990.
+
+\bibitem{lagarisbook}
+Lagarias, Jeffrey C.
+\textit{The ultimate challenge: the 3x + 1 problem}
+Providence, R.I.: American Mathematical Society. p. 4. ISBN 978-0821849408.
+
+\bibitem{simon2005}
+Simons, John L. 
+\textit{On the nonexistence of 2-cycles for the 3x + 1 problem}
+Math. Comp. 74: 1565–72. Bibcode:2005MaCom..74.1565S. doi:10.1090/s0025-5718-04-01728-4. MR 2137019.
+ 
+ \bibitem{simon2003}
+ Simons, J.; de Weger, B. 
+ \textit{Theoretical and computational bounds for m-cycles of the 3n + 1 problem}
+ Acta Arithmetica. 117 (1): 51–70. Bibcode:2005AcAri.117...51S. doi:10.4064/aa117-1-3.
+
+\bibitem{steiner}
+Steiner, R. P. 
+\textit{A theorem on the syracuse problem}
+Proceedings of the 7th Manitoba Conference on Numerical Mathematics. pp. 553–9. MR 0535032.
+ 
+\bibitem{terrance}
+Tao, Terence.
+\textit{Almost all Collatz orbits attain almost bounded values}
+https://arxiv.org/abs/1909.03562 
+\end{thebibliography}
+
+\end{document}
